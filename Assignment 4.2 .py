@@ -1,6 +1,6 @@
 import requests
 
-api_key ="28ad392f8af4ae1e2f813a3b47dcc294"
+api_key ="{API KEY}" #I don't wanna expose my api key
 city=input("Enter city name: ")
 
 
