@@ -1,0 +1,22 @@
+SELECT s.customer_id,
+       SUM(
+           CASE
+               WHEN s.customer_id IN (SELECT customer_id FROM members) AND
+                    s.order_date BETWEEN mem.join_date AND DATE(mem.join_date, '+6 day')
+               THEN
+                   CASE
+                       WHEN m.product_name = 'sushi' THEN m.price * 20 * 2
+                       ELSE m.price * 10 * 2
+                   END
+               ELSE
+                   CASE
+                       WHEN m.product_name = 'sushi' THEN m.price * 20
+                       ELSE m.price * 10
+                   END
+           END
+       ) AS total_points
+FROM sales s
+JOIN menu m ON s.product_id = m.product_id
+LEFT JOIN members mem ON s.customer_id = mem.customer_id
+WHERE s.customer_id IN ('A', 'B')
+GROUP BY s.customer_id;
